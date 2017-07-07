@@ -2,10 +2,10 @@
 // index.php 20150101 - 20170302
 // Copyright (C) 2015-2017 Mark Constable <markc@renta.net> (AGPL-3.0)
 
-declare(strict_types = 1);
+declare(strict_types = 1); // this strict_types is used for checking function calls and retrun statement in the file.
 
-echo new class() extends Init
-{
+echo new class() extends Init //this statement creates the new class from old Init
+{ //The access specifier declaired below contains the variables and other data members.
     protected
     $email = 'markc@renta.net',
     $in = [
@@ -28,25 +28,25 @@ echo new class() extends Init
 
 class Init
 {
-    public function __construct()
+    public function __construct() //This is the inbuilt function which creates a new "SinmpleXMLElement" Object.
     {
-        foreach ($this->in as $k => $v)
-            $this->in[$k] = isset($_REQUEST[$k])
-                ? htmlentities(trim($_REQUEST[$k])) : $v;
+        foreach ($this->in as $k => $v) //"foreach" loop is populate the key-value pair from the out array and store in "$this" element.
+            $this->in[$k] = isset($_REQUEST[$k]) //It is used to check wheather the variable is initialized or not
+                ? htmlentities(trim($_REQUEST[$k])) : $v; //htmlentities is used to convert all the characters to HTML entities
 
-        if (method_exists($this, $this->in['m']))
-            $this->out['main'] = $this->{$this->in['m']}();
+        if (method_exists($this, $this->in['m']))//this if condition is having two parameter "first" is object and "second" is method name.it returns TRUE if the method given by "$this->in['m']" has been defined for the given $this(object),FALSE otherwise.
+            $this->out['main'] = $this->{$this->in['m']}();// If the above condition is true then the left side variable assigned with value available in right side of expression.
 
-        foreach ($this->out as $k => $v)
-            $this->out[$k] = method_exists($this, $k) ? $this->$k() : $v;
+        foreach ($this->out as $k => $v)// "foreach" loop is populate the key-value pair from the out array and store in "$this" element
+            $this->out[$k] = method_exists($this, $k) ? $this->$k() : $v;// this ternary operator indicates if the "method_exists"
     }
 
-    public function __toString() : string
+    public function __toString() : string // This function is having name "toString" and return type string
     {
         return $this->html();
     }
 
-    private function css() : string
+    private function css() : string // This function "css" string return type and it returns the style defined below on calling
     {
         return '
     <link href="//fonts.googleapis.com/css?family=Roboto:100,300,400,500,300italic" rel="stylesheet" type="text/css">
@@ -102,7 +102,7 @@ a.active:hover { background-color: #2295f8; }
         </style>';
     }
 
-    private function nav1() : string
+    private function nav1() : string //this function is having name "nav1" and returns string type value
     {
         $m = '?m='.$this->in['m'];
         return '
@@ -114,7 +114,7 @@ a.active:hover { background-color: #2295f8; }
       </nav>';
     }
 
-    private function head() : string
+    private function head() : string //head() is having string type return value
     {
         return '
     <header>
@@ -122,14 +122,14 @@ a.active:hover { background-color: #2295f8; }
     </header>';
     }
 
-    private function main() : string
+    private function main() : string //main() is having string type return value
     {
         return '
     <main>' . $this->out['main'] . '
     </main>';
     }
 
-    private function foot() : string
+    private function foot() : string //foot() is having string type return value
     {
         return '
     <footer>
@@ -137,7 +137,7 @@ a.active:hover { background-color: #2295f8; }
     </footer>';
     }
 
-    private function html() : string
+    private function html() : string //It returns the document structure in HTML format
     {
         extract($this->out, EXTR_SKIP);
         return '<!DOCTYPE html>
@@ -153,7 +153,7 @@ a.active:hover { background-color: #2295f8; }
 ';
     }
 
-    private function home() : string
+    private function home() : string //On calling "home" function the navigation menu will assign with the link listed under the "array_merge" function
     {
         $this->nav1 = array_merge($this->nav1, [
             ['Project Page', 'https://github.com/markc/spe/tree/master/02-Styled'],
@@ -167,7 +167,7 @@ Comments and pull requests are most welcome via the Issue Tracker link above.
       </p>';
     }
 
-    private function about() : string
+    private function about() : string //On calling "about" function it return string type as defined below the return statement
     {
         return '
       <h2>About</h2>
@@ -178,7 +178,7 @@ design and some of the new features of PHP7.
       </p>';
     }
 
-    private function contact() : string
+    private function contact() : string //This function is used to create the contact form and its having the javascript coding also to validate on client side.
     {
         return '
       <h2>Email Contact Form</h2>
